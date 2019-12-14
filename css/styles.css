@@ -18,6 +18,8 @@ html {
 }
 
 body {
+	height: 700px;
+	width: 1000px;
 	grid-column: 2;
 	border: 4px solid black;
 	border-radius: 17px;
@@ -45,7 +47,8 @@ header {
 }
 
 .search {
-	padding: 0.3em;
+	padding: 0.7em;
+	background-color: white;
 	border: 1px solid lightgray;
 	border-radius: 3px;
 	margin-top: 0.5em;
@@ -64,7 +67,7 @@ main {
 }
 
 .main__item {
-	border: 3px solid darkgrey;
+	border: 5px solid darkgrey;
 	background-color: #F5F5DC;
 	border-radius: 5px;
 	box-shadow:
@@ -243,7 +246,7 @@ ul {
 	}
 
 	.modal > p {
-		font-size:  small;
+		font-size:  medium;
 	}
 }
 

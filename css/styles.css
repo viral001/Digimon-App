@@ -8,6 +8,8 @@
 
 html {
 	display: grid;
+	background: rgb(87,44,116);
+	background: linear-gradient(90deg, rgba(87,44,116,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
 	grid-template-columns: 1fr 4fr 1fr;
 	grid-template-rows: 1fr;
 	height: 90%;
@@ -127,6 +129,7 @@ footer {
 	grid-row: 3;
 	background-color: grey;
 	padding: 1em;
+	text-align: center;
 }
 
 footer > p {

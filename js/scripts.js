@@ -1,173 +1,237 @@
-var pokemonRepository = (function () {   //start of IIFE
+//rewritten pokedex code comes here
+var dR = (function($) {
+  //immediate stuff here
   var repository = [];
+  var apiUrl = 'https://rickandmortyapi.com/api/character/?status=dead';
+  var urlInfo = {pages: 1, next: apiUrl};
 
-   var apiUrl = 'https://digimon-api.herokuapp.com/api/digimon/?limit=150';
-
-   function add(item) {
-     repository.push(item);
-   };
-
-   function getAll() {
-     return repository;
-
-   }
-
-   // Loading data from external API
-function loadList() {
-  return fetch(apiUrl).then(function (response) {
-    return response.json();
-  }).then(function (json) {
-    json.results.forEach(function (item) {
-      var pokemon = {
-        name: item.name,
-        detailsUrl: item.url
-      };
-      add(pokemon);
-      console.log(item);                                // Ex 1.7 - first one that I forgot
-    });
-  }).catch(function (e) {
-    console.error(e);
-  })
-}
-
-function addListItem(pokemon = {}) {
-  var pokemonList = document.querySelector('.pokemon-list');
-  var $listItem = document.createElement('li');   //create an li element that contains a button for each Pokémon
-  var button = document.createElement('button'); //creates the button element
-  $listItem.classList.add('pokemon-list__item');
-  button.innerText = pokemon.name;     //Set the innerText of the button to be the Pokémon's name
-  button.classList.add('button__style');  //Add a class to the button using the classList.add method
-  $listItem.appendChild(button);   //append the button to the list item as its child.
-  pokemonList.appendChild($listItem); //append the child in the repository pokemon
-  button.addEventListener('click', function(event) {
-    showDetails(pokemon); // creating the button as a function/event to be able to click in the future, if need more details.
-
-
-  });
-}
-
-
-
-// Get the pokemon details from URL
-
-function loadDetails(item) {
-var url = item.detailsUrl;
-return fetch(url).then(function (response) {
-  return response.json();
-}).then(function (details) {
-  // This adds details to the item
-  item.imageUrl = details.sprites.front_default;
-  item.height = details.height;
-  item.weight = details.weight;
-  item.types = Object.keys(details.types);
-}).catch(function (e) {
-  console.error(e);
-});
-}
-
-function showDetails(item) {
-  pokemonRepository.loadDetails(item).then(function () {
-    showModal(item);
-    console.log(item);
-      });
-
-}
-
-// Creating modal content
-function showModal(item) {
-  var $modalContainer = document.querySelector('#modal-container');
-
-  // Clearing all existing modal content
-  $modalContainer.innerHTML = '';
-
-  // Create div element in DOM
-  var modal = document.createElement('div');
-  // Add class to div DOM element
-  modal.classList.add('modal');
-
-  // Creating element for name in modal content
-  var nameElement = document.createElement('h1');
-  nameElement.innerText = item.name;
-
-  //creating img in modal content
-  var imageElement = document.createElement('img');
-  imageElement.classList.add('modal-img');
-  imageElement.setAttribute('src', item.imageUrl);
-
-  // Creating element for height
-  var heightElement = document.createElement('p');
-  heightElement.innerText = 'height : ' + item.height;
-
-  // // Creating element for weight in modal content
-  var typesElement = document.createElement('p');
-  typesElement.innerText = 'weight : ' + item.weight;
-
-    // Create closing button in modal content
-    var closeButtonElement = document.createElement('button');
-    closeButtonElement.classList.add('modal-close');
-    closeButtonElement.innerText = 'Close';
-    closeButtonElement.addEventListener('click', hideModal);
-
-  // Appending modal content to webpage
-  modal.appendChild(closeButtonElement);
-  modal.appendChild(nameElement);
-  modal.appendChild(imageElement);
-  modal.appendChild(heightElement);
-  modal.appendChild(typesElement);
-  $modalContainer.appendChild(modal);
-
-  // adds class to show the modal
-  $modalContainer.classList.add('is-visible');
-
-}
-
-// hides modal when you click on close button
-function hideModal() {
-  var $modalContainer = document.querySelector('#modal-container');
-  $modalContainer.classList.remove('is-visible');
-}
-
-// Hides modal when clicked on ESC on keyboard
-
-window.addEventListener('keydown', (e) => {
-var $modalContainer = document.querySelector('#modal-container');
-
-if (
-  e.key === 'Escape' && $modalContainer.classList.contains('is-visible')
-) {
-  hideModal();
-}
-});
-
-// Hides modal if clicked outside of it
-var $modalContainer = document.querySelector('.pokemon-list');
-$modalContainer.addEventListener('click', (e) => {
-  var target = e.target;
-  if (target === $modalContainer) {
-    hideModal();
+  //filter the repository by checking whether a given string in lowercase is part ...
+  //of the value (in lowercase) of the name property of objects in the repository.
+  //returns an array of objects whose name value correspond to the given string or an empty one
+  function filterByName(inputNameString) {
+  	return repository.filter(function (repositoryObj){
+  		return repositoryObj.name.toLowerCase().indexOf(inputNameString.toLowerCase()) != -1;
+  	})
   }
-});
 
+  function updateList(inputNameString)  {
+    //clear list
+    $('#data-list').empty();
 
-return {
-  loadList: loadList,
-  addListItem: addListItem,
-  showDetails: showDetails,
-  add: add,
-  getAll: getAll,
-  loadDetails: loadDetails,
-  showModal: showModal,
-  hideModal: hideModal
-};
+    var filteredData = dR.filterByName(inputNameString);
+    //add new results
+    $.each(filteredData, function(i,obj ){
+      dR.addListItem(obj);
+    });
 
-})();  //this one closes IIFE
+  }
 
+  function updateUrl(info){
+    urlInfo.pages = info.pages;
+    urlInfo.next = info.next;
+  }
 
+  function add(mortuus){
+    if (typeof(mortuus) === 'object') {
+				repository.push(mortuus);
+      } else {
+        console.log('Please add an object');
+      }
+  }
 
+  function getAll() {
+    return repository;
+  }
 
-pokemonRepository.loadList().then(function() {
+  function addListItem(mortuusObj) {
+    //append a <li> with a <button> inside:
+    $('#data-list').append('<li class="mortuus-list__item"><button class="list-item__button"></button></li>');
+    //set button text and functionality:
+    $('.list-item__button').last()
+      .text(mortuusObj.name)
+      .click(function(event){
+        showDetails(mortuusObj);
+      });
+  }
 
-  pokemonRepository.getAll().forEach(function(pokemon){          //loop
-    pokemonRepository.addListItem(pokemon);
+  function urlReset() {
+    urlInfo.next = apiUrl;
+  }
+
+  function loadList() {
+    var d = $.Deferred();
+
+    //if urlInfo.next is empty it will reset to the start
+    if (!urlInfo.next){
+      urlReset();
+    }
+
+    $.ajax(urlInfo.next, {
+      method: 'GET',
+      dataType: 'json',
+      timeout: 4000
+    }).then(function(response){
+        //update the url
+        var meta = response.info;
+        updateUrl(meta);
+
+        //iterate through the response:
+        var results = response.results;
+        $.each(results, function(i){
+            var deadObj = {
+              name: results[i].name,
+              detailsUrl: results[i].url
+              };
+            add(deadObj);
+            d.resolve();
+          });
+        }).catch(function(err){
+          console.log('Sorry! Error: '+ err.statusText)
+          d.reject();
+      });
+      return d.promise();
+  }
+
+  async function loadListRepeater() {
+      for (i = 1; i < urlInfo.pages; i++) {
+        const test = await loadList();
+      }
+  }
+
+  function loadDetails(repositoryObject) {
+    var d = $.Deferred();
+    var url = repositoryObject.detailsUrl;
+
+    $.ajax(url, {
+      method: 'GET',
+      dataType: 'json',
+      timeout: 2000
+    }).then( function(response) {
+      repositoryObject.species = response.species;
+      repositoryObject.gender = response.gender;
+      repositoryObject.origin = response.origin.name;
+      repositoryObject.location = response.location.name;
+      repositoryObject.imageUrl = response.image;
+      //success
+      d.resolve();
+    }).catch( function(err) {
+      //failure
+      console.log('Sorry! Error: '+ err.statusText);
+      d.reject();
+    })
+
+    return d.promise();
+  }
+
+  function showDetails(mortuusObj) {
+    loadDetails(mortuusObj).then(function() {
+		  showModal(mortuusObj);
+    })
+  }
+
+  //1. create a modal, 2. append children incl classes,
+  // 3. add fixed content, 4. add flexible content, 5. show it all
+  function showModal(mortuusObj) {
+    // 1
+    $('#modal-container')
+      .empty()
+      .append('<div class="modal"></div>');
+    //2
+    $('.modal')
+        .append('<button class="modal-close">close</button>')
+        .append('<h3 class="modal-title"></h3>')
+        .append('<img class="modal-img">')
+        .append('<p class="modal-birth"></p>')
+        .append('<p class="modal-death"></p>')
+        .append('<p class="modal-species"></p>');
+    //3
+    $('.modal-close').click(function() {hideModal();});
+    $('.modal-title').text(mortuusObj.name);
+    $('.modal-img').attr('src', mortuusObj.imageUrl);
+    //4
+    $('.modal-birth').text(getBirthText(mortuusObj));
+    $('.modal-death').text(getDeathText(mortuusObj));
+    $('.modal-species').text(getSpeciesText(mortuusObj));
+    //5
+    $('#modal-container').addClass('is-visible');
+  }
+  //modal EventListeners:
+  $('#modal-container').click(function() {hideModal();});
+  $(document).keydown(function (e) {
+    if (e.key === "Escape") {
+      hideModal();
+    }
+  })
+
+  function hideModal() {
+    $('#modal-container').removeClass('is-visible');
+  }
+
+  // modal-output modification:
+  function getPossesivePronoun(mortuusObj) {
+    if (mortuusObj.gender === "Female") {
+      return "Her";
+    } else if (mortuusObj.gender === "Male") {
+      return "His";
+    } else {
+      return mortuusObj.name + '´s';
+    }
+  }
+
+  function getBirthText(mortuusObj) {
+    if (mortuusObj.origin === "unknown") {
+      return mortuusObj.name + '´s birthplace is not known.';
+    }
+    return mortuusObj.name + ' recieved the gift of life on ' + mortuusObj.origin + '.';
+  }
+
+  function getDeathText(mortuusObj) {
+    if (mortuusObj.location === "unknown") {
+      return mortuusObj.name + ' went missing.';
+    }
+    return getPossesivePronoun(mortuusObj) + ' final place of rest is ' + mortuusObj.location + '.';
+  }
+
+  function getSpeciesText(mortuusObj) {
+    if (mortuusObj.species === "unknown") {
+      return getPossesivePronoun(mortuusObj)+ ' family values the time they had together.';
+    }
+    return getPossesivePronoun(mortuusObj)+ ' ' + mortuusObj.species +' family values the time they had together.';
+  }
+  //modal modification end
+
+  function printList() {
+    var repo = dR.getAll();
+    $.each(repo, function(i,obj ){
+      dR.addListItem(obj);
+  });}
+
+  $(document).ready(function(){
+    //Starter:
+    //1. Load the first 20 Items, then show them.
+    //2. Only then load and show the rest.
+    dR.loadList().then(function(){ //1.
+      dR.printList();
+    }).then(function(){ //2.
+      dR.loadListRepeater().then(function(){
+          dR.printList();
+        });
+      });
+    //real time search function:
+    $('.search').attr('oninput', 'dR.updateList(this.value)');
+  //end $(document).ready :
   });
-});
+
+  return {
+    printList: printList,
+    updateList: updateList,
+    filterByName: filterByName,
+    showModal: showModal,
+    updateUrl: updateUrl,
+    showDetails: showDetails,
+    addListItem: addListItem,
+    getAll: getAll,
+    loadList: loadList,
+    loadListRepeater: loadListRepeater
+  }
+})(jQuery);

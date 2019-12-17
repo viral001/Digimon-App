@@ -11,36 +11,27 @@
 
 <body>
   <div class="outer-wrapper">
-    <nav class= "row navbar container fixed-top py-sm-5">
-      <span class="navbar-brand mb-o mr-0 h1"></span>
-      <span class="navbar-brand mb-0 header h1">Digimon </span>
-      <input class="search" type="search" placeholder="search by name..."/>
-    </nav>
-
-    <div class="row main">
-      <div class="list-group w-75 m-auto" id='data-list'></div>
+      <header>
+        <h1> Digimon </h1>
+        <input class="search" type="search" placeholder="search by name..."/>
+      </header>
+    <main>
+      <div class="main__item main-left-or-bottom">
+        <ul id='data-list'>
+        </ul>
+      </div>
+      <div class="main__item main-right-or-top">
+        <div id='modal-container'></div>
+      </div>
+      </main>
+      <footer>
+        <p> Check out My Github pages </p>
+      <div class="social media">
+        <a href="https://github.com/viral001"><img src="img/github_icon.svg" alt="Github"></a>
+      </div>
+      </footer>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+      <script src="js/scripts.js"></script>
     </div>
-    <div class="row footer py-2 py-sm-4 container fixed-bottom">
-      <span class="ml-auto text-center">Rest in Peace </span>
-      <span class="span-bottom"></span>
-    </div>
-  </div>
-
-  <!--Modal-->
-    <div class="modal fade" id='detailsModal' aria-label="modalcontainer" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">test</h5>
-            <button type="button" class="close" data-dismiss="modal">close</button>
-    </div>
-      <div class="modal-body">test</div>
-    </div>
-  </div>
-</div>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-  </body>
+    </body>
 </html>

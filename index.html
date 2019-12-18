@@ -5,35 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Digimon App </title>
     <link rel="shortcut icon" href="img/meta.jpg">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap">
-  </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <title>Digimon </title>
+    </head>
+    <body class="container" id="body">
+        <nav class=" row navbar container fixed-top py-sm-4">
+          <span class="navbar-brand mb-0 mr-0 h1"></span>
+          <span class="navbar-brand mb-0 header h1">Digimon</span>
+          <input class="search ml-auto" type="search" aria-label="Search" placeholder="search by name ..."/>
+        </nav>
+        <div class="row main">
+          <div class="list-group w-75 m-auto" id='data-list'></div>
+        </div>
+        <div class="row footer py-2 py-sm-4 container fixed-bottom">
+          <span class="ml-auto text-center">Rest in peace </span>
+          <span class="span-bottom">💀</span>
+        </div>
 
-<body>
-  <div class="outer-wrapper">
-      <header>
-        <h1> Digimon </h1>
-        <input class="search" type="search" placeholder="search by name..."/>
-      </header>
-    <main>
-      <div class="main__item main-left-or-bottom">
-        <ul id='data-list'>
-        </ul>
+   <!-- Modal -->
+      <div class="modal fade" id='detailsModal' aria-label="modalContainer" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">testtitle</h5>
+              <button type="button" class="close" data-dismiss="modal">close</button>
+            </div>
+            <div class="modal-body">testcontent</div>
+          </div>
+        </div>
       </div>
-      <div class="main__item main-right-or-top">
-        <div id='modal-container'></div>
-      </div>
-      </main>
-      <footer>
-        <p> Check out My Github pages </p>
-      <div class="social media">
-        <a href="https://github.com/viral001"><img src="img/github_icon.svg" alt="Github"></a>
-      </div>
-      </footer>
       <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
-      <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
       <script src="js/scripts.js"></script>
-    </div>
     </body>
-</html>
+  </html>

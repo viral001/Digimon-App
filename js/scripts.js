@@ -31,6 +31,10 @@ var dR = (function($) {
     urlInfo.next = info.next;
   }
 
+  function urlReset() {
+    urlInfo.next = apiUrl;
+  }
+
   function add(mortuus){
     if (typeof(mortuus) === 'object') {
 				repository.push(mortuus);
@@ -45,21 +49,21 @@ var dR = (function($) {
 
   function addListItem(mortuusObj) {
     //append a <li> with a <button> inside:
-    $('#data-list').append('<li class="mortuus-list__item"><button class="list-item__button"></button></li>');
+    $('#data-list').append('<button type="button" class="list-item__button list-group-item list-group-item-action"></button>');
     //set button text and functionality:
     $('.list-item__button').last()
+      .attr('data-toggle','modal')
+      .attr('data-target', '#detailsModal')
       .text(mortuusObj.name)
       .click(function(event){
         showDetails(mortuusObj);
       });
   }
 
-  function urlReset() {
-    urlInfo.next = apiUrl;
-  }
-
+//don´t forget to iterate through the other pages as well
   function loadList() {
     var d = $.Deferred();
+
 
     //if urlInfo.next is empty it will reset to the start
     if (!urlInfo.next){
@@ -71,6 +75,7 @@ var dR = (function($) {
       dataType: 'json',
       timeout: 4000
     }).then(function(response){
+        console.log(response)
         //update the url
         var meta = response.info;
         updateUrl(meta);
@@ -78,16 +83,16 @@ var dR = (function($) {
         //iterate through the response:
         var results = response.results;
         $.each(results, function(i){
-            var deadObj = {
-              name: results[i].name,
-              detailsUrl: results[i].url
-              };
-            add(deadObj);
-            d.resolve();
-          });
-        }).catch(function(err){
-          console.log('Sorry! Error: '+ err.statusText)
-          d.reject();
+          var deadObj = {
+            name: results[i].name,
+            detailsUrl: results[i].url
+          };
+          add(deadObj);
+          d.resolve();
+                });
+      }).catch(function(err){
+        console.log('Sorry! Error: '+ err.statusText)
+        d.reject();
       });
       return d.promise();
   }
@@ -125,46 +130,26 @@ var dR = (function($) {
 
   function showDetails(mortuusObj) {
     loadDetails(mortuusObj).then(function() {
+			console.log(mortuusObj);
 		  showModal(mortuusObj);
     })
   }
 
-  //1. create a modal, 2. append children incl classes,
-  // 3. add fixed content, 4. add flexible content, 5. show it all
   function showModal(mortuusObj) {
-    // 1
-    $('#modal-container')
-      .empty()
-      .append('<div class="modal"></div>');
-    //2
-    $('.modal')
-        .append('<button class="modal-close">close</button>')
-        .append('<h3 class="modal-title"></h3>')
-        .append('<img class="modal-img">')
-        .append('<p class="modal-birth"></p>')
-        .append('<p class="modal-death"></p>')
-        .append('<p class="modal-species"></p>');
-    //3
-    $('.modal-close').click(function() {hideModal();});
+  //  $('.close').click(function() {hideModal();});
     $('.modal-title').text(mortuusObj.name);
+
+    $('.modal-body')
+      .empty()
+      .append('<img class="modal-img"/>')
+      .append('<p class="modal-birth"><p>')
+      .append('<p class="modal-death"><p>')
+      .append('<p class="modal-species"><p>');
+
     $('.modal-img').attr('src', mortuusObj.imageUrl);
-    //4
     $('.modal-birth').text(getBirthText(mortuusObj));
     $('.modal-death').text(getDeathText(mortuusObj));
     $('.modal-species').text(getSpeciesText(mortuusObj));
-    //5
-    $('#modal-container').addClass('is-visible');
-  }
-  //modal EventListeners:
-  $('#modal-container').click(function() {hideModal();});
-  $(document).keydown(function (e) {
-    if (e.key === "Escape") {
-      hideModal();
-    }
-  })
-
-  function hideModal() {
-    $('#modal-container').removeClass('is-visible');
   }
 
   // modal-output modification:
@@ -207,20 +192,20 @@ var dR = (function($) {
   });}
 
   $(document).ready(function(){
-    //Starter:
-    //1. Load the first 20 Items, then show them.
-    //2. Only then load and show the rest.
-    dR.loadList().then(function(){ //1.
-      dR.printList();
-    }).then(function(){ //2.
-      dR.loadListRepeater().then(function(){
-          dR.printList();
-        });
-      });
-    //real time search function:
-    $('.search').attr('oninput', 'dR.updateList(this.value)');
-  //end $(document).ready :
-  });
+     //Starter:
+     //1. Load the first 20 Items, then show them.
+     //2. Only then load and show the rest.
+     dR.loadList().then(function(){ //1.
+       dR.printList();
+     }).then(function(){ //2.
+       dR.loadListRepeater().then(function(){
+           dR.printList();
+         });
+       });
+     //real time search function:
+     $('.search').attr('oninput', 'dR.updateList(this.value)');
+   //end $(document).ready :
+   });
 
   return {
     printList: printList,

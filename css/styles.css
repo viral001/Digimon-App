@@ -1,5 +1,6 @@
 .row {
-	background-color: gray
+	background: rgb(211,106,219);
+	background: linear-gradient(90deg, rgba(211,106,219,1) 0%, rgba(217,204,125,1) 0%, rgba(253,239,29,1) 50%, rgba(252,176,69,1) 87%);
  }
 
 .list-group-item {
@@ -7,8 +8,9 @@
 	padding: 0.5em 0;
 	margin: 0.5em 0;
 	color: black;
+	font-style: italic;
 	letter-spacing: 0.05em;
-	background-color: gray;
+	background-color: white;
 	border: 1px solid black;
 	transition:
 		letter-spacing 0.5s,
@@ -19,8 +21,8 @@
 
 .list-group-item-action:focus,
 .list-group-item-action:hover {
-	color: beige;
-	background-color: black;
+	color: black;
+	background-color: lightgray;
 	letter-spacing: 0.1em;
 }
 
@@ -46,7 +48,7 @@
 }
 
 .fixed-top {
-	border-bottom: 3px dotted black;
+	border-bottom: 3px dotted black
 }
 
 .fixed-bottom {
@@ -61,20 +63,16 @@
 .h5,
 .footer > span
  {
-	letter-spacing: 0.3em;
-	color: lightgray;
-	text-shadow:
-		-1px -1px 2px #474753,
-		1px -1px 2px #474753,
-		-1px 3px 2px #474753,
-		1px 1px 2px #474753;
+	letter-spacing: 0.2em;
+	color: black;
+	font-style: italic;
 }
 
 .h5 {
 	letter-spacing: 0.1em;
 }
 
-.container {
+.container-fluid {
   padding-right: 15px !important;
 	padding-left: 15px !important;
 }
@@ -93,8 +91,8 @@ button.close {
 
 input.search {
 	padding: 0.1em;
-	border-radius: 0.4em;
-	border: 3px solid lightgray;
+	border-radius: 0.5em;
+	border: 3px solid black;
 }
 
 @media only screen and (max-width: 576px) {

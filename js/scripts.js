@@ -9,9 +9,9 @@ var dR = (function($) {
   //of the value (in lowercase) of the name property of objects in the repository.
   //returns an array of objects whose name value correspond to the given string or an empty one
   function filterByName(inputNameString) {
-  	return repository.filter(function (repositoryObj){
-  		return repositoryObj.name.toLowerCase().indexOf(inputNameString.toLowerCase()) != -1;
-  	})
+    return repository.filter(function (repositoryObj){
+      return repositoryObj.name.toLowerCase().indexOf(inputNameString.toLowerCase()) != -1;
+  })
   }
 
   function updateList(inputNameString)  {
@@ -131,7 +131,7 @@ var dR = (function($) {
   function showDetails(mortuusObj) {
     loadDetails(mortuusObj).then(function() {
 			console.log(mortuusObj);
-		  showModal(mortuusObj);
+    showModal(mortuusObj);
     })
   }
 
@@ -154,31 +154,31 @@ var dR = (function($) {
 
   // modal-output modification:
   function getPossesivePronoun(mortuusObj) {
-    if (mortuusObj.gender === "Female") {
-      return "Her";
-    } else if (mortuusObj.gender === "Male") {
-      return "His";
+    if (mortuusObj.gender === 'Female') {
+      return 'Her';
+    } else if (mortuusObj.gender === 'Male') {
+      return 'His';
     } else {
       return mortuusObj.name + '´s';
     }
   }
 
   function getBirthText(mortuusObj) {
-    if (mortuusObj.origin === "unknown") {
+    if (mortuusObj.origin === 'unknown') {
       return mortuusObj.name + '´s birthplace is not known.';
     }
     return mortuusObj.name + ' recieved the gift of life on ' + mortuusObj.origin + '.';
   }
 
   function getDeathText(mortuusObj) {
-    if (mortuusObj.location === "unknown") {
+    if (mortuusObj.location === 'unknown') {
       return mortuusObj.name + ' went missing.';
     }
     return getPossesivePronoun(mortuusObj) + ' final place of rest is ' + mortuusObj.location + '.';
   }
 
   function getSpeciesText(mortuusObj) {
-    if (mortuusObj.species === "unknown") {
+    if (mortuusObj.species === 'unknown') {
       return getPossesivePronoun(mortuusObj)+ ' family values the time they had together.';
     }
     return getPossesivePronoun(mortuusObj)+ ' ' + mortuusObj.species +' family values the time they had together.';
